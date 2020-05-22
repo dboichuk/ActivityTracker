@@ -1,0 +1,16 @@
+{
+  "name": "dboichuk/328/ActivityTracker",
+  "authors": [
+    {
+      "name": "Dmytro Boichuk",
+      "email": "dboichuk@mail.greenriver.edu"
+    },
+    {
+      "name": "David Haas",
+      "email": "dhaas3@mail.greenriver.edu"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
+  }
+}
