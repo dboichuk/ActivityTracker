@@ -11,21 +11,45 @@ class Profile
     private $_fitnessLevel;
     private $_email;
 
-    /** Default constructor
-     * @param $firstName first name
-     * @param $lastName last name
-     * @param $age age of the person
-     * @param $fitnessLevel fitness level of the person
-     * @param $address person's address
+    /**
+     * Profile constructor.
+     * @param $_firstName
+     * @param $_lastName
+     * @param $_userID
+     * @param $_password
+     * @param $_age
+     * @param $_fitnessLevel
+     * @param $_email
      */
-    public function __construct($firstName, $lastName, $age,
-                                $fitnessLevel, $email)
+    public function __construct($_firstName, $_lastName, $_userID, $_password, $_age, $_fitnessLevel, $_email)
     {
-        $this->setFirstName($firstName);
-        $this->setLastName($lastName);
-        $this->setAge($age);
-        $this->setFitnessLevel($fitnessLevel);
-        $this->setEmail($email);
+        $this->_firstName = $_firstName;
+        $this->_lastName = $_lastName;
+        $this->_userID = $_userID;
+        $this->_password = $_password;
+        $this->_age = $_age;
+        $this->_fitnessLevel = $_fitnessLevel;
+        $this->_email = $_email;
+    }
+
+    /**
+     * This method checks if name, email, user ID, and password are filled out
+     * @return bool true if all fields are filled, false if at least one is empty
+     */
+    function validateData()
+    {
+        $valid = true;
+
+        if (empty($this->getFirstName()) || empty($this->getLastName()) ||
+            empty($this->getUserID()) || empty($this->getPassword())) {
+            $valid = false;
+        }
+        return $valid;
+    }
+
+    function changePassword()
+    {
+
     }
 
     /** Set the first name
@@ -58,6 +82,38 @@ class Profile
     public function getLastName()
     {
         return $this->_lastName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserID()
+    {
+        return $this->_userID;
+    }
+
+    /**
+     * @param mixed $userID
+     */
+    public function setUserID($userID)
+    {
+        $this->_userID = $userID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPassword()
+    {
+        return $this->_password;
+    }
+
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password)
+    {
+        $this->_password = $password;
     }
 
     /** Set the age
