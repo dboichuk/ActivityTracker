@@ -17,7 +17,26 @@ $f3 = Base::instance();
 
 
 //Default route
-$f3->route('GET /', function() {
+$f3->route('GET|POST /', function($f3) {
+    $username="jshmo";
+    $password='1111';
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if(isset($_POST['login'])){
+            $f3->reroute("profile");
+        }
+    }
+
+
+
+    $view = new Template();
+    echo $view->render('views/login.html');
+
+});
+
+$f3->route('GET|POST /profile', function($f3) {
+
+
+
 
     $view = new Template();
     echo $view->render('views/profile.html');
