@@ -22,7 +22,7 @@ class Database
         $dbh = $this->_dbh;
         // define the query
         $sql = "INSERT INTO profiles(firstName, lastName, password,email,age,gender,fitnessLevel,reg_date)
-            VALUES (:fname, :lname, :password,:email,:age,:gender,:fitnessLevel, GETDATE())";
+            VALUES (:fname, :lname, :password,:email,:age,:gender,:fitnessLevel, CURRENT_TIMESTAMP)";
 
         // prepare the statement
         $statement = $dbh->prepare($sql);
@@ -38,6 +38,42 @@ class Database
         $statement->execute();
 
     } // end addStudent
+
+    function getUser($email){
+        $dbh = $this->_dbh;
+
+        $sql="SELECT * FROM profiles WHERE email=:email";
+
+        // prepare the statement
+        $statement = $dbh->prepare($sql);
+        $statement->bindParam(':email', $email);
+
+        $result=$statement->execute();
+        return $result;
+
+    }
+
+    function checkLogin($email,$password){
+        $dbh = $this->_dbh;
+
+        $sql="SELECT * FROM profiles WHERE email=:email";
+
+        // prepare the statement
+        $statement = $dbh->prepare($sql);
+        $statement->bindParam(':email', $email);
+
+        $result=$statement->execute();
+
+        if($result['password']==$password){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+
+
+
+    }
 
 
 
