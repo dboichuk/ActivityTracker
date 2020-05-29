@@ -4,11 +4,12 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-//Start a session
-session_start();
-
 //Require the autoload file
 require_once("vendor/autoload.php");
+require_once("model/data-layer.php");
+
+//Start a session
+session_start();
 
 
 //Instantiate the F3 Base class
@@ -46,6 +47,7 @@ $f3->route('GET|POST /profile', function($f3) {
 
 });
 
+
 $f3->route('GET|POST /register', function($f3) {
 
 
@@ -54,6 +56,21 @@ $f3->route('GET|POST /register', function($f3) {
     $view = new Template();
     echo $view->render('views/register.html');
 
+});
+
+
+$f3->route('GET|POST /hike', function($f3) {
+
+    $view = new Template();
+    echo $view->render('views/hike.html');
+});
+
+$f3->route('GET|POST /fishing', function($f3) {
+
+    $f3->set('waters', getWaterTypes());
+
+    $view = new Template();
+    echo $view->render('views/fishing.html');
 });
 
 
