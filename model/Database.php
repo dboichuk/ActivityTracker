@@ -62,7 +62,9 @@ class Database
         $statement = $dbh->prepare($sql);
         $statement->bindParam(':email', $email);
 
-        $result=$statement->execute();
+        $statement->execute();
+        $result=$statement->fetch(PDO::FETCH_ASSOC);
+
 
         if($result['password']==$password){
             return 1;

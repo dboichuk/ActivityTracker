@@ -20,6 +20,10 @@
             <h1 class="text-center">Welcome!</h1>
             <form method="post" class="form row">
 
+                <check if="{{ isset(@error)}}">
+                    <p class="error alert alert-danger" role="alert">{{@error}}</p>
+                </check>
+
 
                 <div class="md-form w-100 mb-0">
                     <input type="text" id="email" name="email" class="form-control pl-2" >

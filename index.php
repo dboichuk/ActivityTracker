@@ -26,9 +26,17 @@ $f3->route('GET|POST /', function($f3) {
     $username="jshmo";
     $password='1111';
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $database= new Database();
         if(isset($_POST['login'])){
-            $f3->reroute("profile");
-            $_SESSION['loggedIn']=true;
+            $result=$database->checkLogin($_POST['email'],$_POST['password']);
+            if($result==0){
+                $f3->set('error','You entered invalid credentials!');
+            }
+            if($result==1){
+                $f3->reroute("profile");
+                $_SESSION['loggedIn']=true;
+            }
+
         }
         if(isset($_POST['register'])){
             $f3->reroute("register");
@@ -53,7 +61,7 @@ $f3->route('GET|POST /profile', function($f3) {
 });
 
 
-$f3->route('GET|POST /register', function($f3,$database) {
+$f3->route('GET|POST /register', function($f3) {
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= new Database();
