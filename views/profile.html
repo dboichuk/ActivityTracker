@@ -37,8 +37,14 @@
         </div>
     </div>
 
-    <button type="button" class="btn mt-3 btn-primary" onclick="hike">Add Hike</button>
-    <button type="button" class="btn mt-3 btn-primary" onclick="fishing">Add Fishing Trip</button>
+    <a href="hike">Add Hike</a>
+    <a href="fishing">Add Fishing Trip</a>
+    <form action="hike">
+        <input type="submit" value="Go to Add a Hike" />
+        <button type="button" class="btn mt-3 btn-primary">Add Hike</button>
+    </form>
+    <button type="button" class="btn mt-3 btn-primary">Add Hike</button>
+    <button type="button" class="btn mt-3 btn-primary" href="fishing" onclick="fishing">Add Fishing Trip</button>
     <button type="button" class="btn mt-3 btn-primary" id="viewHikes">View Hikes</button>
     <button type="button" class="btn mt-3 btn-primary" id="viewFishing">View Fishing Trips</button>
 
