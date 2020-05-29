@@ -1,6 +1,6 @@
 <?php
-$home = $_SERVER['home'];  //e.g. "/home/tostrand"
-require_once "$home/config.php";
+$user = $_SERVER['USER'];
+require_once "/home2/$user/config.php";
 class Database
 {
     private $_dbh;
