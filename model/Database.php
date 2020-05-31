@@ -40,7 +40,8 @@ class Database
 
     } // end addUser
 
-    function getUser($email){
+    function getUser($email)
+    {
         $dbh = $this->_dbh;
 
         $sql = "SELECT * FROM profiles WHERE email=?";
@@ -51,7 +52,8 @@ class Database
 
     } // end getUser
 
-    function checkLogin($email,$password){
+    function checkLogin($email,$password)
+    {
         $dbh = $this->_dbh;
 
         $sql="SELECT * FROM profiles WHERE email=:email";
@@ -71,7 +73,73 @@ class Database
             return 0;
         }
 
+        function addHike($title, $address, $enjoyability, $length, $elevationChange, $difficulty, $scenery, $date, $user)
+        {
+            $dbh = $this->_dbh;
+            // define the query
+            $sql = "INSERT INTO hikes(title, address, enjoyability, length, elevationChange, difficulty, scenery, date, user)
+            VALUES (:title, :address, :enjoyability, :length, :elevationChange, :difficulty, :scenery, :date, :user)";
 
+            // prepare the statement
+            $statement = $dbh->prepare($sql);
+            $statement->bindParam(':title', $title);
+            $statement->bindParam(':address', $address);
+            $statement->bindParam(':enjoyability', $enjoyability);
+            $statement->bindParam(':length', $length);
+            $statement->bindParam(':elevationChange', $elevationChange);
+            $statement->bindParam(':difficulty', $difficulty);
+            $statement->bindParam(':scenery', $scenery);
+            $statement->bindParam(':date', $date);
+            $statement->bindParam(':user', $user);
+
+            $statement->execute();
+
+        } // end addHike
+
+        function getHikes($user)
+        {
+            $dbh = $this->_dbh;
+
+            $sql = "SELECT * FROM hikes WHERE user = ?";
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute([$user]);
+            return $stmt->fetch();
+
+        } // end getHikes
+
+        function addFishing($title, $address, $enjoyability, $distanceFromParking, $waterType, $success, $date, $user)
+        {
+            $dbh = $this->_dbh;
+            // define the query
+            $sql = "INSERT INTO fishing(title, address, enjoyability, distanceFromParking, waterType, success, date, user)
+            VALUES (:title, :address, :enjoyability, :distanceFromParking, :waterType, :success, :date, :user)";
+
+            // prepare the statement
+            $statement = $dbh->prepare($sql);
+            $statement->bindParam(':title', $title);
+            $statement->bindParam(':address', $address);
+            $statement->bindParam(':enjoyability', $enjoyability);
+            $statement->bindParam(':distanceFromParking', $distanceFromParking);
+            $statement->bindParam(':waterType', $waterType);
+            $statement->bindParam(':success', $success);
+            $statement->bindParam(':date', $date);
+            $statement->bindParam(':user', $user);
+
+            // execute
+            $statement->execute();
+
+        } // end addFishing
+
+        function getFishing($user)
+        {
+            $dbh = $this->_dbh;
+
+            $sql = "SELECT * FROM fishing WHERE user = ?";
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute([$user]);
+            return $stmt->fetch();
+
+        } // end getFishing
 
     }
 

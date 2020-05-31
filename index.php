@@ -64,6 +64,7 @@ $f3->route('GET|POST /profile', function($f3) {
     $_SESSION['age'] = $row['age'];
     $_SESSION['fitnessLevel'] = $row['fitnessLevel'];
     $_SESSION['password'] = $row['password'];
+    $_SESSION['user'] = $row['user_id'];
 
     $view = new Template();
     echo $view->render('views/profile.html');
@@ -76,7 +77,7 @@ $f3->route('GET|POST /register', function($f3) {
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= new Database();
 
-        $f3->set('registered','Thank you for registration!');
+        //$f3->set('registered','Thank you for registration!');
 
         $fname=$_POST['fname'];
         $lname=$_POST['lname'];
@@ -108,11 +109,46 @@ $f3->route('GET|POST /register', function($f3) {
 
 $f3->route('GET|POST /hike', function($f3) {
 
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $database= new Database();
+
+        $title = $_POST['title'];
+        $address = $_POST['address'];
+        $enjoyability = $_POST['enjoyability'];
+        $length = $_POST['length'];
+        $elevationChange = $_POST['elevationChange'];
+        $difficulty = $_POST['difficulty'];
+        $scenery = $_POST['scenery'];
+        $date = $_POST['date'];
+        $user = $_SESSION['user'];
+
+        $database->addHike($title, $address, $enjoyability, $length, $elevationChange, $difficulty, $scenery, $date, $user);
+
+        $f3->reroute("profile");
+    }
+
     $view = new Template();
     echo $view->render('views/hike.html');
 });
 
 $f3->route('GET|POST /fishing', function($f3) {
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $database= new Database();
+
+        $title = $_POST['title'];
+        $address = $_POST['address'];
+        $enjoyability = $_POST['enjoyability'];
+        $distanceFromParking = $_POST['distanceFromParking'];
+        $waterType = $_POST['waterType'];
+        $success = $_POST['success'];
+        $date = $_POST['date'];
+        $user = $_SESSION['user'];
+
+        $database->addFishing($title, $address, $enjoyability, $distanceFromParking, $waterType, $success, $date, $user);
+
+        $f3->reroute("profile");
+    }
 
     $f3->set('waters', getWaterTypes());
 
@@ -120,6 +156,11 @@ $f3->route('GET|POST /fishing', function($f3) {
     echo $view->render('views/fishing.html');
 });
 
+$f3->route('GET /logout', function($f3) {
+
+    $view = new Template();
+    echo $view->render('views/logout.php');
+});
 
 //run
 $f3->run();
