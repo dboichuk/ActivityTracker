@@ -140,7 +140,7 @@ $f3->route('GET|POST /fishing', function($f3) {
         $address = $_POST['address'];
         $enjoyability = $_POST['enjoyability'];
         $distanceFromParking = $_POST['distanceFromParking'];
-        $waterType = $_POST['waterType'];
+        $waterType = $_POST['water'];
         $success = $_POST['success'];
         $date = $_POST['date'];
         $user = $_SESSION['user'];
