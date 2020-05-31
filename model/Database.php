@@ -13,6 +13,7 @@ class Database
     function __construct()
     {
         $this->_dbh = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+        $this->_dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
     } // end constructor
 
@@ -37,21 +38,18 @@ class Database
         // execute
         $statement->execute();
 
-    } // end addStudent
+    } // end addUser
 
     function getUser($email){
         $dbh = $this->_dbh;
 
-        $sql="SELECT * FROM profiles WHERE email=:email";
+        $sql = "SELECT * FROM profiles WHERE email=?";
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute([$email]);
+        $row = $stmt->fetch();
+        return $row;
 
-        // prepare the statement
-        $statement = $dbh->prepare($sql);
-        $statement->bindParam(':email', $email);
-
-        $result=$statement->execute();
-        return $result;
-
-    }
+    } // end getUser
 
     function checkLogin($email,$password){
         $dbh = $this->_dbh;
