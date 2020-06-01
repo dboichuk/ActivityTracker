@@ -38,6 +38,7 @@ $f3->route('GET|POST /', function($f3) {
             if($result==1){
                 $_SESSION['loggedIn']=true;
                 $_SESSION['email'] = $_POST['email'];
+
                 $f3->reroute("profile");
 
             }
@@ -158,8 +159,11 @@ $f3->route('GET|POST /fishing', function($f3) {
 
 $f3->route('GET /logout', function($f3) {
 
-    $view = new Template();
-    echo $view->render('views/logout.php');
+
+    session_destroy();
+    $_SESSION = array();
+
+    $f3->reroute("/");
 });
 
 //run
