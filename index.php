@@ -113,7 +113,7 @@ $f3->route('GET|POST /hike', function($f3) {
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= new Database();
 
-        $title = $_POST['title'];
+        $title = $_POST['name'];
         $address = $_POST['address'];
         $enjoyability = $_POST['enjoyability'];
         $length = $_POST['length'];
@@ -124,6 +124,8 @@ $f3->route('GET|POST /hike', function($f3) {
         $user = $_SESSION['user'];
 
         $database->addHike($title, $address, $enjoyability, $length, $elevationChange, $difficulty, $scenery, $date, $user);
+
+
 
         $f3->reroute("profile");
     }
@@ -137,7 +139,7 @@ $f3->route('GET|POST /fishing', function($f3) {
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= new Database();
 
-        $title = $_POST['title'];
+        $title = $_POST['name'];
         $address = $_POST['address'];
         $enjoyability = $_POST['enjoyability'];
         $distanceFromParking = $_POST['distanceFromParking'];
@@ -164,6 +166,37 @@ $f3->route('GET /logout', function($f3) {
     $_SESSION = array();
 
     $f3->reroute("/");
+});
+
+$f3->route('GET /viewHiking', function($f3) {
+    $database= new Database();
+    $data=$database->getHikes($_SESSION['user']);
+    $f3->set('columns',array("Title","Address","Enjoyability","Length", "Elevation Change","Difficulty","Scenery", "Date"));
+    $results=array();
+    foreach ($data as $row){
+        array_push($results,array($row['title'],$row['address'],$row['enjoyability'],$row['length'],$row['elevationChange'],$row['difficulty'],$row['scenery'],$row['date']));
+    }
+    $f3->set("results",$results);
+
+
+    $view = new Template();
+    echo $view->render('views/viewHiking.html');
+});
+
+
+
+$f3->route('GET /viewFishing', function($f3) {
+    $database= new Database();
+    $data=$database->getFishing($_SESSION['user']);
+    $f3->set('columns',array("Title","Address","Enjoyability","Distance From Parking", "Water Type","Success", "Date"));
+    $results=array();
+    foreach ($data as $row){
+        array_push($results,array($row['title'],$row['address'],$row['enjoyability'],$row['distanceFromParking'],$row['waterType'],$row['success']));
+    }
+    $f3->set("results",$results);
+
+    $view = new Template();
+    echo $view->render('views/viewFishing.html');
 });
 
 //run

@@ -44,10 +44,11 @@ class Database
     {
         $dbh = $this->_dbh;
 
-        $sql = "SELECT * FROM profiles WHERE email=?";
+        $sql = "SELECT * FROM profiles WHERE email=:email";
         $stmt = $dbh->prepare($sql);
-        $stmt->execute([$email]);
-        $row = $stmt->fetch();
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row;
 
     } // end getUser
@@ -56,43 +57,53 @@ class Database
     {
         $dbh = $this->_dbh;
 
-        $sql="SELECT * FROM profiles WHERE email=:email";
+        $sql = "SELECT * FROM profiles WHERE email=:email";
 
         // prepare the statement
         $statement = $dbh->prepare($sql);
         $statement->bindParam(':email', $email);
 
         $statement->execute();
-        $result=$statement->fetch(PDO::FETCH_ASSOC);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
 
 
-        if($result['password']==$password){
+        if ($result['password'] == $password) {
             return 1;
-        }
-        else{
+        } else {
             return 0;
         }
+    }
 
         function addHike($title, $address, $enjoyability, $length, $elevationChange, $difficulty, $scenery, $date, $user)
         {
             $dbh = $this->_dbh;
             // define the query
             $sql = "INSERT INTO hikes(title, address, enjoyability, length, elevationChange, difficulty, scenery, date, user)
-            VALUES (:title, :address, :enjoyability, :length, :elevationChange, :difficulty, :scenery, :date, :user)";
+            VALUES (:title, :address, :enjoyability, :length, :elevationChange, :difficulty, :scenery, :date , :user)";
+
+
+
+
 
             // prepare the statement
             $statement = $dbh->prepare($sql);
-            $statement->bindParam(':title', $title);
-            $statement->bindParam(':address', $address);
-            $statement->bindParam(':enjoyability', $enjoyability);
-            $statement->bindParam(':length', $length);
-            $statement->bindParam(':elevationChange', $elevationChange);
-            $statement->bindParam(':difficulty', $difficulty);
-            $statement->bindParam(':scenery', $scenery);
-            $statement->bindParam(':date', $date);
-            $statement->bindParam(':user', $user);
+
+            $statement->bindParam(':title', $title,PDO::PARAM_STR );
+            $statement->bindParam(':address', $address, PDO::PARAM_STR);
+            $statement->bindParam(':enjoyability', $enjoyability,PDO::PARAM_STR);
+            $statement->bindParam(':length', $length,PDO::PARAM_STR);
+            $statement->bindParam(':elevationChange', $elevationChange,PDO::PARAM_STR);
+            $statement->bindParam(':difficulty', $difficulty,PDO::PARAM_STR);
+            $statement->bindParam(':scenery', $scenery,PDO::PARAM_STR);
+            $statement->bindParam(':date', $date,PDO::PARAM_STR);
+            $statement->bindParam(':user', $user,PDO::PARAM_STR);
+
+
 
             $statement->execute();
+
+
+
 
         } // end addHike
 
@@ -103,7 +114,7 @@ class Database
             $sql = "SELECT * FROM hikes WHERE user = ?";
             $stmt = $dbh->prepare($sql);
             $stmt->execute([$user]);
-            return $stmt->fetch();
+            return $stmt->fetchAll();
 
         } // end getHikes
 
@@ -113,6 +124,8 @@ class Database
             // define the query
             $sql = "INSERT INTO fishing(title, address, enjoyability, distanceFromParking, waterType, success, date, user)
             VALUES (:title, :address, :enjoyability, :distanceFromParking, :waterType, :success, :date, :user)";
+
+
 
             // prepare the statement
             $statement = $dbh->prepare($sql);
@@ -128,6 +141,8 @@ class Database
             // execute
             $statement->execute();
 
+
+
         } // end addFishing
 
         function getFishing($user)
@@ -137,11 +152,11 @@ class Database
             $sql = "SELECT * FROM fishing WHERE user = ?";
             $stmt = $dbh->prepare($sql);
             $stmt->execute([$user]);
-            return $stmt->fetch();
+            return $stmt->fetchAll();
 
         } // end getFishing
 
-    }
+
 
 
 

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <include href="includes/header.htm"></include>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+    <script src="js/JavaScript.js"></script>
+    <title>AT Fishing</title>
+</head>
+<body>
+<div class="container">
+    <table id="datatable">
+        <tr>
+            <repeat group="{{ @columns }}" value="{{ @col }}">
+                <th>{{@col}}</th>
+            </repeat>
+        </tr>
+
+        <repeat group="{{ @results }}" value="{{ @result }}">
+            <tr>
+                <repeat group="{{ @result }}" value="{{ @item }}"><td>{{@item}}</td></repeat>
+            </tr>
+        </repeat>
+
+    </table>
+
+    <a href="profile" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Profile Page</a>
+
+
+
+</div>
+
+
+
+</body>
+</html>
