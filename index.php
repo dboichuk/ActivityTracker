@@ -1,7 +1,6 @@
 <?php
 
-//Start a session
-session_start();
+
 
 //Turn on error reporting
 ini_set('display_errors', 1);
@@ -13,11 +12,13 @@ require_once("model/data-layer.php");
 require_once("model/database.php");
 require_once("model/validate.php");
 
-
+//Start a session
+session_start();
 
 //Instantiate the F3 Base class
 $f3 = Base::instance();
 $validator = new Validate($f3);
+$database= new Database();
 
 //Default route
 $f3->route('GET|POST /', function($f3) {
@@ -35,6 +36,19 @@ $f3->route('GET|POST /', function($f3) {
             if($result==1){
                 $_SESSION['loggedIn']=true;
                 $_SESSION['email'] = $_POST['email'];
+
+                $row = $GLOBALS['database']->getUser($_POST['email']);
+                $_SESSION['user']=$row['user_id'];
+
+                $fname = $row['firstName'];
+                $lname = $row['lastName'];
+                $age= $row['age'];
+                $fitnessLevel = $row['fitnessLevel'];
+                $password= $row['password'];
+                $gender=$row['gender'];
+                $email=$_POST['email'];
+
+                $_SESSION['profile'] = new Profile($fname, $lname, $password, $age, $fitnessLevel, $gender, $email);
 
                 $f3->reroute("profile");
 
@@ -54,15 +68,6 @@ $f3->route('GET|POST /', function($f3) {
 });
 
 $f3->route('GET|POST /profile', function($f3) {
-    $database= new Database();
-    $row = $database->getUser($_SESSION['email']);
-
-    $_SESSION['fName'] = $row['firstName'];
-    $_SESSION['lName'] = $row['lastName'];
-    $_SESSION['age'] = $row['age'];
-    $_SESSION['fitnessLevel'] = $row['fitnessLevel'];
-    $_SESSION['password'] = $row['password'];
-    $_SESSION['user'] = $row['user_id'];
 
     $view = new Template();
     echo $view->render('views/profile.html');
@@ -115,7 +120,7 @@ $f3->route('GET|POST /register', function($f3) {
 $f3->route('GET|POST /hike', function($f3) {
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $database= new Database();
+        $database= $GLOBALS['database'];
         $hikeObj=new Hikes($_POST['name'],$_POST['address'],$_POST['enjoyability'],$_POST['date']);
 
 
@@ -140,7 +145,7 @@ $f3->route('GET|POST /hike', function($f3) {
 $f3->route('GET|POST /fishing', function($f3) {
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $database= new Database();
+        $database= $GLOBALS['database'];
         $fishObj=new Fishing($_POST['name'],$_POST['address'],$_POST['enjoyability'],$_POST['date']);
 
 
@@ -170,7 +175,7 @@ $f3->route('GET /logout', function($f3) {
 });
 
 $f3->route('GET /viewHiking', function($f3) {
-    $database= new Database();
+    $database= $GLOBALS['database'];
     $data=$database->getHikes($_SESSION['user']);
     $f3->set('columns',array("Title","Address","Enjoyability","Length", "Elevation Change","Difficulty","Scenery", "Date"));
     $results=array();
@@ -187,7 +192,7 @@ $f3->route('GET /viewHiking', function($f3) {
 
 
 $f3->route('GET /viewFishing', function($f3) {
-    $database= new Database();
+    $database= $GLOBALS['database'];
     $data=$database->getFishing($_SESSION['user']);
     $f3->set('columns',array("Title","Address","Enjoyability","Distance From Parking", "Water Type","Success", "Date"));
     $results=array();

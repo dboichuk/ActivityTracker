@@ -31,27 +31,27 @@
             <div class="col">
                 <div class="form-group">
                     <label for="fName"><strong>First Name:</strong></label>
-                    <input type="text" class="form-control" id="fName" name="fName" value="{{ @SESSION.fName }}">
+                    <input type="text" class="form-control" id="fName" name="fName" value="{{ @SESSION.profile->getFirstName() }}">
                 </div>
                 <div class="form-group">
                     <label for="fName"><strong>Last Name:</strong></label>
-                    <input type="text" class="form-control" id="lName" name="lName" value="{{ @SESSION.lName }}">
+                    <input type="text" class="form-control" id="lName" name="lName" value="{{ @SESSION.profile->getLastName() }}">
                 </div>
                 <div class="form-group">
                     <label for="age"><strong>Age:</strong></label>
-                    <input type="text" class="form-control" id="age" name="age" value="{{ @SESSION.age }}">
+                    <input type="text" class="form-control" id="age" name="age" value="{{ @SESSION.profile->getAge() }}">
                 </div>
                 <div class="form-group">
                     <label for="fitnessLevel"><strong>Fitness Level:</strong></label>
-                    <input type="text" class="form-control" id="fitnessLevel" name="fitnessLevel" value="{{ @SESSION.fitnessLevel }}">
+                    <input type="text" class="form-control" id="fitnessLevel" name="fitnessLevel" value="{{ @SESSION.profile->getFitnessLevel() }}">
                 </div>
                 <div class="form-group">
                     <label for="email"><strong>Email:</strong></label>
-                    <input type="text" class="form-control" id="email" name="email" value="{{ @SESSION.email }}">
+                    <input type="text" class="form-control" id="email" name="email" value="{{ @SESSION.profile->getEmail() }}">
                 </div>
                 <div class="form-group">
                     <label for="password"><strong>Password:</strong></label>
-                    <input type="password" class="form-control" id="password" name="password" value="@SESSION.password">
+                    <input type="password" class="form-control" id="password" name="password" value="@SESSION.profile->getPassword()">
                 </div>
 
             </div>

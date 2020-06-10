@@ -11,6 +11,7 @@ class Profile
     private $_fitnessLevel;
     private $_email;
 
+
     /**
      * Profile constructor.
      * @param $_firstName
@@ -29,6 +30,7 @@ class Profile
         $this->_gender = $_gender;
         $this->_fitnessLevel = $_fitnessLevel;
         $this->_email = $_email;
+
     }
 
     /**
