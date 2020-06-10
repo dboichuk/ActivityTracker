@@ -1,7 +1,5 @@
 <?php
 
-//Start a session
-session_start();
 
 //Turn on error reporting
 ini_set('display_errors', 1);
@@ -14,10 +12,14 @@ require_once("model/database.php");
 require_once("model/validate.php");
 
 
+//Start a session
+session_start();
 
 //Instantiate the F3 Base class
 $f3 = Base::instance();
 $validator = new Validate($f3);
+
+//var_dump($_POST['password']);
 
 //Default route
 $f3->route('GET|POST /', function($f3) {
@@ -71,25 +73,33 @@ $f3->route('GET|POST /profile', function($f3) {
 
 
 $f3->route('GET|POST /register', function($f3) {
-    global $validator;
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= new Database();
 
         //$f3->set('registered','Thank you for registration!');
 
-        if ($validator->validName($_POST['fname'], $_POST['lname'])) {
+        if ($GLOBALS['validator']->validName($_POST['fname'], $_POST['lname'])) {
             $fname=$_POST['fname'];
             $lname=$_POST['lname'];
         }
-        if ($validator->validPassword($_POST['fname'], $_POST['lname'], $f3)) {
+        else {
+            $this->_f3->set("errors['name']", "Please enter a valid name.");
+        }
+        if ($GLOBALS['validator']->validPassword($_POST['password'], $_POST['cpassword'])) {
             $password=$_POST['password'];
         }
-        if ($validator->validEmail($_POST['email'])) {
+        if ($GLOBALS['validator']->validEmail($_POST['email'])) {
             $email=$_POST['email'];
         }
-        if ($validator->validAge($_POST['age'])) {
+        else {
+            $this->_f3->set("errors['email']", "Please enter a valid email.");
+        }
+        if ($GLOBALS['validator']->validAge($_POST['age'])) {
             $age=$_POST['age'];
+        }
+        else {
+            $this->_f3->set("errors['age']", "Please enter a valid age.");
         }
         if (empty($f3['errors'])) {
             $gender=$_POST['gender'];

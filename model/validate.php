@@ -47,26 +47,26 @@ class Validate
         return false;
     }
 
-    function validPassword($password, $cpassword, $f3)
+    function validPassword($password, $cpassword)
     {
         if(!empty($password) && ($password == $cpassword)) {
             if (strlen($password <= '8')) {
-                $f3->set("errors['passLength']", "Passwords must be at least 8 characters.");
+                $this->_f3->set("errors['passLength']", "Passwords must be at least 8 characters.");
             }
             elseif(!preg_match("#[0-9]+#",$password)) {
-                $f3->set("errors['passNumber']", "Passwords must contain at least 1 number.");
+                $this->_f3->set("errors['passNumber']", "Passwords must contain at least 1 number.");
             }
             elseif(!preg_match("#[A-Z]+#",$password)) {
-                $f3->set("errors['passCapital']", "Passwords must contain at least 1 capital letter.");
+                $this->_f3->set("errors['passCapital']", "Passwords must contain at least 1 capital letter.");
             }
             elseif(!preg_match("#[a-z]+#",$password)) {
-                $f3->set("errors['passLower']", "Passwords must contain at least 1 lower case letter.");
+                $this->_f3->set("errors['passLower']", "Passwords must contain at least 1 lower case letter.");
             }
         }
         elseif(!empty($password)) {
-            $f3->set("errors['passConfirm']", "Passwords do not match.");
+            $this->_f3->set("errors['passConfirm']", "Passwords do not match.");
         } else {
-            $f3->set("errors['passEmpty']", "Please enter a password.");
+            $this->_f3->set("errors['passEmpty']", "Please enter a password.");
         }
     }
 }

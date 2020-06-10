@@ -22,12 +22,16 @@
     <form method="post" action="#">
         <div class="form-group">
             <label for="fname"><strong>First Name:</strong></label>
-            <input type="text" class="form-control" id="fname" name="fname" required>
+            <input type="text" class="form-control" id="fname" name="fname">
         </div>
         <div class="form-group">
             <label for="fname"><strong>Last Name:</strong></label>
             <input type="text" class="form-control" id="lname" name="lname" required>
         </div>
+        <check if="{{ isset(@errors['name']) }}">
+            <p class="text-danger">{{ @errors['name'] }}</p>
+        </check>
+
         <p><strong>Gender:</strong></p>
         <div class="form-check form-check-inline">
             <label><input type="radio" name="gender"  value="Male"> Male</input></label><br>
@@ -39,6 +43,10 @@
         <div class="form-group">
             <label for="age"><strong>Age:</strong></label>
             <input type="text" class="form-control" id="age" name="age" required>
+
+            <check if="{{ isset(@errors['age']) }}">
+                <p class="text-danger">{{ @errors['age'] }}</p>
+            </check>
         </div>
         <div class="form-group">
             <label for="level"><strong>Fitness Level:</strong></label>
@@ -47,6 +55,10 @@
         <div class="form-group">
             <label for="email"><strong>Email:</strong></label>
             <input type="email" class="form-control" id="email" name="email" required>
+
+            <check if="{{ isset(@errors['email']) }}">
+                <p class="text-danger">{{ @errors['email'] }}</p>
+            </check>
         </div>
         <div class="form-group">
             <label for="password"><strong>Password:</strong></label>
@@ -54,6 +66,24 @@
                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                    title="Must contain at least one number and one uppercase and lowercase letter,
                and at least 8 or more characters" required>
+            <check if="{{ isset(@errors['password']) }}">
+                <p class="text-danger">{{ @errors['passLength'] }}</p>
+            </check>
+            <check if="{{ isset(@errors['passNumber']) }}">
+                <p class="text-danger">{{ @errors['passNumber'] }}</p>
+            </check>
+            <check if="{{ isset(@errors['passCapital']) }}">
+                <p class="text-danger">{{ @errors['passCapital'] }}</p>
+            </check>
+            <check if="{{ isset(@errors['passLower']) }}">
+                <p class="text-danger">{{ @errors['passLower'] }}</p>
+            </check>
+            <check if="{{ isset(@errors['passConfirm']) }}">
+                <p class="text-danger">{{ @errors['passConfirm'] }}</p>
+            </check>
+            <check if="{{ isset(@errors['passEmpty']) }}">
+                <p class="text-danger">{{ @errors['passEmpty'] }}</p>
+            </check>
 
             <div id="message">
                 <h3>Password must contain the following:</h3>
