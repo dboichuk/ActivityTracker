@@ -22,8 +22,7 @@ $f3 = Base::instance();
 
 //Default route
 $f3->route('GET|POST /', function($f3) {
-    $username="jshmo";
-    $password='1111';
+
 
     //Clear SESSION variable
     $_SESSION = array();
@@ -112,18 +111,17 @@ $f3->route('GET|POST /hike', function($f3) {
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= new Database();
+        $hikeObj=new Hikes($_POST['name'],$_POST['address'],$_POST['enjoyability'],$_POST['date']);
 
-        $title = $_POST['name'];
-        $address = $_POST['address'];
-        $enjoyability = $_POST['enjoyability'];
-        $length = $_POST['length'];
-        $elevationChange = $_POST['elevationChange'];
-        $difficulty = $_POST['difficulty'];
-        $scenery = $_POST['scenery'];
-        $date = $_POST['date'];
+
+        $hikeObj->setLength($_POST['length']);
+        $hikeObj->setElevationChange($_POST['elevationChange']);
+        $hikeObj->setDifficulty($_POST['difficulty']);
+        $hikeObj->setScenery($_POST['scenery']);
+
         $user = $_SESSION['user'];
 
-        $database->addHike($title, $address, $enjoyability, $length, $elevationChange, $difficulty, $scenery, $date, $user);
+        $database->addHike($hikeObj, $user);
 
 
 
@@ -138,17 +136,15 @@ $f3->route('GET|POST /fishing', function($f3) {
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= new Database();
+        $fishObj=new Fishing($_POST['name'],$_POST['address'],$_POST['enjoyability'],$_POST['date']);
 
-        $title = $_POST['name'];
-        $address = $_POST['address'];
-        $enjoyability = $_POST['enjoyability'];
-        $distanceFromParking = $_POST['distanceFromParking'];
-        $waterType = $_POST['water'];
-        $success = $_POST['success'];
-        $date = $_POST['date'];
+
+        $fishObj->setDistanceFromParking($_POST['distanceFromParking']);
+        $fishObj->setWaterType($_POST['water']);
+        $fishObj->setSuccess($_POST['success']);
         $user = $_SESSION['user'];
 
-        $database->addFishing($title, $address, $enjoyability, $distanceFromParking, $waterType, $success, $date, $user);
+        $database->addFishing($fishObj, $user);
 
         $f3->reroute("profile");
     }
@@ -191,7 +187,7 @@ $f3->route('GET /viewFishing', function($f3) {
     $f3->set('columns',array("Title","Address","Enjoyability","Distance From Parking", "Water Type","Success", "Date"));
     $results=array();
     foreach ($data as $row){
-        array_push($results,array($row['title'],$row['address'],$row['enjoyability'],$row['distanceFromParking'],$row['waterType'],$row['success']));
+        array_push($results,array($row['title'],$row['address'],$row['enjoyability'],$row['distanceFromParking'],$row['waterType'],$row['success'],$row['date']));
     }
     $f3->set("results",$results);
 

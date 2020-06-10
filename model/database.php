@@ -74,7 +74,7 @@ class Database
         }
     }
 
-        function addHike($title, $address, $enjoyability, $length, $elevationChange, $difficulty, $scenery, $date, $user)
+        function addHike($hikeObj, $user)
         {
             $dbh = $this->_dbh;
             // define the query
@@ -88,14 +88,14 @@ class Database
             // prepare the statement
             $statement = $dbh->prepare($sql);
 
-            $statement->bindParam(':title', $title,PDO::PARAM_STR );
-            $statement->bindParam(':address', $address, PDO::PARAM_STR);
-            $statement->bindParam(':enjoyability', $enjoyability,PDO::PARAM_STR);
-            $statement->bindParam(':length', $length,PDO::PARAM_STR);
-            $statement->bindParam(':elevationChange', $elevationChange,PDO::PARAM_STR);
-            $statement->bindParam(':difficulty', $difficulty,PDO::PARAM_STR);
-            $statement->bindParam(':scenery', $scenery,PDO::PARAM_STR);
-            $statement->bindParam(':date', $date,PDO::PARAM_STR);
+            $statement->bindParam(':title', $hikeObj->getTitle(),PDO::PARAM_STR );
+            $statement->bindParam(':address', $hikeObj->getAddress(), PDO::PARAM_STR);
+            $statement->bindParam(':enjoyability', $hikeObj->getEnjoyability(),PDO::PARAM_STR);
+            $statement->bindParam(':length', $hikeObj->getLength(),PDO::PARAM_STR);
+            $statement->bindParam(':elevationChange', $hikeObj->getElevationChange(),PDO::PARAM_STR);
+            $statement->bindParam(':difficulty', $hikeObj->getDifficulty(),PDO::PARAM_STR);
+            $statement->bindParam(':scenery', $hikeObj->getScenery(),PDO::PARAM_STR);
+            $statement->bindParam(':date', $hikeObj->getDate(),PDO::PARAM_STR);
             $statement->bindParam(':user', $user,PDO::PARAM_STR);
 
 
@@ -118,7 +118,7 @@ class Database
 
         } // end getHikes
 
-        function addFishing($title, $address, $enjoyability, $distanceFromParking, $waterType, $success, $date, $user)
+        function addFishing($fishObj, $user)
         {
             $dbh = $this->_dbh;
             // define the query
@@ -129,13 +129,13 @@ class Database
 
             // prepare the statement
             $statement = $dbh->prepare($sql);
-            $statement->bindParam(':title', $title);
-            $statement->bindParam(':address', $address);
-            $statement->bindParam(':enjoyability', $enjoyability);
-            $statement->bindParam(':distanceFromParking', $distanceFromParking);
-            $statement->bindParam(':waterType', $waterType);
-            $statement->bindParam(':success', $success);
-            $statement->bindParam(':date', $date);
+            $statement->bindParam(':title', $fishObj->getTitle());
+            $statement->bindParam(':address', $fishObj->getAddress());
+            $statement->bindParam(':enjoyability', $fishObj->getEnjoyability());
+            $statement->bindParam(':distanceFromParking', $fishObj->getDistanceFromParking());
+            $statement->bindParam(':waterType', $fishObj->getWaterType());
+            $statement->bindParam(':success', $fishObj->getSuccess());
+            $statement->bindParam(':date', $fishObj->getDate());
             $statement->bindParam(':user', $user);
 
             // execute
