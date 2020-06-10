@@ -11,18 +11,16 @@ error_reporting(E_ALL);
 require_once("vendor/autoload.php");
 require_once("model/data-layer.php");
 require_once("model/database.php");
+require_once("model/validate.php");
 
 
 
 //Instantiate the F3 Base class
 $f3 = Base::instance();
-
-
-
+$validator = new Validate($f3);
 
 //Default route
 $f3->route('GET|POST /', function($f3) {
-
 
     //Clear SESSION variable
     $_SESSION = array();
@@ -73,30 +71,37 @@ $f3->route('GET|POST /profile', function($f3) {
 
 
 $f3->route('GET|POST /register', function($f3) {
+    global $validator;
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= new Database();
 
         //$f3->set('registered','Thank you for registration!');
 
-        $fname=$_POST['fname'];
-        $lname=$_POST['lname'];
-        $password=$_POST['password'];
-        $email=$_POST['email'];
-        $age=$_POST['age'];
-        $gender=$_POST['gender'];
-        $fitnessLevel=$_POST['level'];
-        $database->addUser($fname, $lname, $password,$email,$age,$gender,$fitnessLevel);
+        if ($validator->validName($_POST['fname'], $_POST['lname'])) {
+            $fname=$_POST['fname'];
+            $lname=$_POST['lname'];
+        }
+        if ($validator->validPassword($_POST['fname'], $_POST['lname'], $f3)) {
+            $password=$_POST['password'];
+        }
+        if ($validator->validEmail($_POST['email'])) {
+            $email=$_POST['email'];
+        }
+        if ($validator->validAge($_POST['age'])) {
+            $age=$_POST['age'];
+        }
+        if (empty($f3['errors'])) {
+            $gender=$_POST['gender'];
+            $fitnessLevel=$_POST['level'];
+            $database->addUser($fname, $lname, $password,$email,$age,$gender,$fitnessLevel);
 
-        $_SESSION['fName'] = $fname;
-        $_SESSION['lName'] = $lname;
-        $_SESSION['password'] = $password;
-        $_SESSION['email'] = $email;
-        $_SESSION['age'] = $age;
-        $_SESSION['gender'] = $gender;
-        $_SESSION['fitnessLevel'] = $fitnessLevel;
+            $_SESSION['profile'] = new Profile($fname, $lname, $password, $age, $fitnessLevel, $gender, $email);
 
-        $f3->reroute("profile");
+            $f3->reroute("profile");
+        }
+
+
     }
 
 

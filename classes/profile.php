@@ -5,9 +5,9 @@ class Profile
     //Declare instance variables
     private $_firstName;
     private $_lastName;
-    private $_userID;
     private $_password;
     private $_age;
+    private $_gender;
     private $_fitnessLevel;
     private $_email;
 
@@ -15,21 +15,36 @@ class Profile
      * Profile constructor.
      * @param $_firstName
      * @param $_lastName
-     * @param $_userID
      * @param $_password
      * @param $_age
      * @param $_fitnessLevel
      * @param $_email
      */
-    public function __construct($_firstName, $_lastName, $_userID, $_password, $_age, $_fitnessLevel, $_email)
+    public function __construct($_firstName, $_lastName, $_password, $_age, $_gender, $_fitnessLevel, $_email)
     {
         $this->_firstName = $_firstName;
         $this->_lastName = $_lastName;
-        $this->_userID = $_userID;
         $this->_password = $_password;
         $this->_age = $_age;
+        $this->_gender = $_gender;
         $this->_fitnessLevel = $_fitnessLevel;
         $this->_email = $_email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGender()
+    {
+        return $this->_gender;
+    }
+
+    /**
+     * @param mixed $gender
+     */
+    public function setGender($gender)
+    {
+        $this->_gender = $gender;
     }
 
     /**
@@ -82,22 +97,6 @@ class Profile
     public function getLastName()
     {
         return $this->_lastName;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUserID()
-    {
-        return $this->_userID;
-    }
-
-    /**
-     * @param mixed $userID
-     */
-    public function setUserID($userID)
-    {
-        $this->_userID = $userID;
     }
 
     /**

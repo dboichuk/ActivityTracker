@@ -1,5 +1,5 @@
 body {
-    background-color: lightblue;
+    background-color: lightgreen;
     margin: 0px 100px;
 }
 
@@ -14,21 +14,58 @@ body {
 }
 
 h1 {
-    color: darkblue;
+    color: darkgreen;
     font-size: 200%;
 }
 
 fieldset {
-    border: solid 1px darkblue;
+    border: solid 1px darkgreen;
     padding: 1em;
 }
 
 legend {
-    color: darkblue;
+    color: darkgreen;
     font-variant: small-caps;
 }
 
 .btn {
-    background-color: darkblue;
-    border-color: darkblue;
+    background-color: darkgreen;
+    border-color: darkgreen;
+}
+
+/* The message box is shown when the user clicks on the password field */
+#message {
+    display:none;
+    background: #f1f1f1;
+    color: #000;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+#message p {
+    padding: 10px 35px;
+    font-size: 18px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+    color: green;
+}
+
+.valid:before {
+    position: relative;
+    left: -35px;
+    content: "&#10004;";
+}
+
+/* Add a red text color and an "x" icon when the requirements are wrong */
+.invalid {
+    color: red;
+}
+
+.invalid:before {
+    position: relative;
+    left: -35px;
+    content: "&#10006;";
 }
