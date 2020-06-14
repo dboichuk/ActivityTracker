@@ -21,7 +21,7 @@ class Profile
      * @param $_fitnessLevel
      * @param $_email
      */
-    public function __construct($_firstName, $_lastName, $_password, $_age, $_gender, $_fitnessLevel, $_email)
+    public function __construct($_firstName, $_lastName, $_password, $_age, $_fitnessLevel, $_gender, $_email)
     {
         $this->_firstName = $_firstName;
         $this->_lastName = $_lastName;

@@ -18,7 +18,7 @@ class Database
     } // end constructor
 
 
-    function addUser($fname, $lname, $password,$email,$age,$gender,$fitnessLevel)
+    function addUser($profileObj)
     {
         $dbh = $this->_dbh;
         // define the query
@@ -27,13 +27,14 @@ class Database
 
         // prepare the statement
         $statement = $dbh->prepare($sql);
-        $statement->bindParam(':fname', $fname);
-        $statement->bindParam(':lname', $lname);
-        $statement->bindParam(':email', $email);
-        $statement->bindParam(':password', $password);
-        $statement->bindParam(':age', $age);
-        $statement->bindParam(':gender', $gender);
-        $statement->bindParam(':fitnessLevel', $fitnessLevel);
+
+        $statement->bindParam(':fname', $profileObj->getFirstName(), PDO::PARAM_STR);
+        $statement->bindParam(':lname', $profileObj->getLastName(), PDO::PARAM_STR);
+        $statement->bindParam(':email', $profileObj->getEmail(), PDO::PARAM_STR);
+        $statement->bindParam(':password', $profileObj->getPassword(), PDO::PARAM_STR);
+        $statement->bindParam(':age', $profileObj->getAge(), PDO::PARAM_STR);
+        $statement->bindParam(':gender', $profileObj->getGender(), PDO::PARAM_STR);
+        $statement->bindParam(':fitnessLevel', $profileObj->getFitnessLevel(), PDO::PARAM_STR);
 
         // execute
         $statement->execute();

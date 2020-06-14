@@ -22,6 +22,7 @@ $validator = new Validate($f3);
 $database= new Database();
 
 //var_dump($_POST['password']);
+//var_dump($_POST['cpassword']);
 
 //Default route
 $f3->route('GET|POST /', function($f3) {
@@ -83,8 +84,6 @@ $f3->route('GET|POST /register', function($f3) {
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= new Database();
 
-        //$f3->set('registered','Thank you for registration!');
-
         if ($GLOBALS['validator']->validName($_POST['fname'], $_POST['lname'])) {
             $fname=$_POST['fname'];
             $lname=$_POST['lname'];
@@ -107,12 +106,19 @@ $f3->route('GET|POST /register', function($f3) {
         else {
             $this->_f3->set("errors['age']", "Please enter a valid age.");
         }
+
         if (empty($f3['errors'])) {
             $gender=$_POST['gender'];
             $fitnessLevel=$_POST['level'];
-            $database->addUser($fname, $lname, $password,$email,$age,$gender,$fitnessLevel);
 
-            $_SESSION['profile'] = new Profile($fname, $lname, $password, $age, $fitnessLevel, $gender, $email);
+            $profileObj = new Profile($fname, $lname, $password, $age, $fitnessLevel, $gender, $email);
+
+            $database->addUser($profileObj);
+
+            $row = $GLOBALS['database']->getUser($_POST['email']);
+            $_SESSION['user']=$row['user_id'];
+
+            $f3->set('registered','Thank you for registration!');
 
             $f3->reroute("profile");
         }
