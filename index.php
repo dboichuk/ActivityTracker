@@ -84,36 +84,38 @@ $f3->route('GET|POST /register', function($f3) {
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= new Database();
 
-        if ($GLOBALS['validator']->validName($_POST['fname'], $_POST['lname'])) {
-            $fname=$_POST['fname'];
-            $lname=$_POST['lname'];
-        }
-        else {
-            $this->_f3->set("errors['name']", "Please enter a valid name.");
-        }
-        if ($GLOBALS['validator']->validPassword($_POST['password'], $_POST['cpassword'])) {
-            $password=$_POST['password'];
-        }
-        if ($GLOBALS['validator']->validEmail($_POST['email'])) {
-            $email=$_POST['email'];
-        }
-        else {
-            $this->_f3->set("errors['email']", "Please enter a valid email.");
-        }
-        if ($GLOBALS['validator']->validAge($_POST['age'])) {
-            $age=$_POST['age'];
-        }
-        else {
-            $this->_f3->set("errors['age']", "Please enter a valid age.");
+        if (!$GLOBALS['validator']->validName($_POST['fname'], $_POST['lname'])) {
+            $f3->set("errors['name']", "Please enter a valid name.");
         }
 
+        $GLOBALS['validator']->validPassword($_POST['password'], $_POST['cpassword']);
+
+
+        if (!$GLOBALS['validator']->validEmail($_POST['email'])) {
+            $f3->set("errors['email']", "Please enter a valid email.");
+        }
+
+        if (!$GLOBALS['validator']->validAge($_POST['age'])) {
+            $f3->set("errors['age']", "Please enter a valid age.");
+        }
+
+
         if (empty($f3['errors'])) {
+
+            $fname=$_POST['fname'];
+            $lname=$_POST['lname'];
+            $password=$_POST['password'];
+            $email=$_POST['email'];
+            $age=$_POST['age'];
+
+
             $gender=$_POST['gender'];
             $fitnessLevel=$_POST['level'];
 
             $profileObj = new Profile($fname, $lname, $password, $age, $fitnessLevel, $gender, $email);
 
             $database->addUser($profileObj);
+            $_SESSION['profile']=$profileObj;
 
             $row = $GLOBALS['database']->getUser($_POST['email']);
             $_SESSION['user']=$row['user_id'];
