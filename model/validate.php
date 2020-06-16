@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Class Validate
+ * This class will validate inputted by user data
+ */
 class Validate
 {
     private $_f3;
@@ -13,7 +17,12 @@ class Validate
         $this->_f3 = $_f3;
     }
 
-
+    /**
+     * This function will check if user inputted valid name
+     * @param $fName
+     * @param $lName
+     * @return bool
+     */
     function validName($fName, $lName)
     {
         $name = $fName . $lName;
@@ -25,20 +34,24 @@ class Validate
         return true;
     }
 
-    /* Return a value indicating if age is valid
-       Valid meals are between 18 and 118
-       @param String $age
-       @return boolean
-    */
+
+    /**
+     * Return a value indicating if age is valid
+     * Valid meals are between 18 and 118
+     * @param $age string
+     * @return bool
+     */
     function validAge($age)
     {
         return !empty($age) && $age >= 18 && $age <= 118;
     }
 
-    /* Return a value indicating if email is valid
-       @param String $email
-       @return boolean
-    */
+
+    /**
+     * Return a value indicating if email is valid
+     * @param $email
+     * @return bool
+     */
     function validEmail($email)
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -47,6 +60,11 @@ class Validate
         return false;
     }
 
+    /**
+     * This function will check if the inputted password is valid
+     * @param $password password
+     * @param $cpassword confirm password
+     */
     function validPassword($password, $cpassword)
     {
         if(!empty($password) && ($password == $cpassword)) {

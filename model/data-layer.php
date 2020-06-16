@@ -1,8 +1,8 @@
 <?php
 
-/* getWaterTypes()
- *   returns an array of different waterways for fishing
- *   @return array
+/**
+ * returns an array of different waterways for fishing
+ * @return string[]
  */
 function getWaterTypes()
 {

@@ -16,11 +16,11 @@ session_start();
 
 //Instantiate the F3 Base class
 $f3 = Base::instance();
+//Instantiate database and validation classes
 $validator = new Validate($f3);
 $database= new Database();
 
-//var_dump($_POST['password']);
-//var_dump($_POST['cpassword']);
+
 
 //Default route
 $f3->route('GET|POST /', function($f3) {
@@ -28,8 +28,10 @@ $f3->route('GET|POST /', function($f3) {
     //Clear SESSION variable
     $_SESSION = array();
 
+    //if user filled out login and pressed a button
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $database= new Database();
+        $database= $GLOBALS['database'];
+        //if user clicked login
         if(isset($_POST['login'])){
             $result=$database->checkLogin($_POST['email'],$_POST['password']);
             if($result==0){
@@ -57,18 +59,20 @@ $f3->route('GET|POST /', function($f3) {
             }
 
         }
+        //if user clicked register
         if(isset($_POST['register'])){
             $f3->reroute("register");
         }
     }
 
 
-
+    //load template
     $view = new Template();
     echo $view->render('views/login.html');
 
 });
 
+//profile page
 $f3->route('GET|POST /profile', function($f3) {
 
     $view = new Template();
@@ -76,28 +80,24 @@ $f3->route('GET|POST /profile', function($f3) {
 
 });
 
-
+//register page
 $f3->route('GET|POST /register', function($f3) {
-
+    //if form has been submitted
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $database= new Database();
 
+        //validation for registration
         if (!$GLOBALS['validator']->validName($_POST['fname'], $_POST['lname'])) {
             $f3->set("errors['name']", "Please enter a valid name.");
         }
-
         $GLOBALS['validator']->validPassword($_POST['password'], $_POST['cpassword']);
-
-
         if (!$GLOBALS['validator']->validEmail($_POST['email'])) {
             $f3->set("errors['email']", "Please enter a valid email.");
         }
-
         if (!$GLOBALS['validator']->validAge($_POST['age'])) {
             $f3->set("errors['age']", "Please enter a valid age.");
         }
 
-
+        //if there are no errors, add user and go to profile page
         if (empty($f3['errors'])) {
 
             $fname=$_POST['fname'];
@@ -110,9 +110,10 @@ $f3->route('GET|POST /register', function($f3) {
             $gender=$_POST['gender'];
             $fitnessLevel=$_POST['level'];
 
+            //user object for profile page
             $profileObj = new Profile($fname, $lname, $password, $age, $fitnessLevel, $gender, $email);
 
-            $database->addUser($profileObj);
+            $GLOBALS['database']->addUser($profileObj);
             $_SESSION['profile']=$profileObj;
 
             $row = $GLOBALS['database']->getUser($_POST['email']);
@@ -133,9 +134,10 @@ $f3->route('GET|POST /register', function($f3) {
 
 });
 
-
+//add a hike page
 $f3->route('GET|POST /hike', function($f3) {
 
+    //if hike form has been submitted add it to database and go to home page
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= $GLOBALS['database'];
         $hikeObj=new Hikes($_POST['name'],$_POST['address'],$_POST['enjoyability'],$_POST['date']);
@@ -159,8 +161,10 @@ $f3->route('GET|POST /hike', function($f3) {
     echo $view->render('views/hike.html');
 });
 
+//add fishing page
 $f3->route('GET|POST /fishing', function($f3) {
 
+    //if fishing form has been submitted add it to database and go to home page
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $database= $GLOBALS['database'];
         $fishObj=new Fishing($_POST['name'],$_POST['address'],$_POST['enjoyability'],$_POST['date']);
@@ -182,6 +186,7 @@ $f3->route('GET|POST /fishing', function($f3) {
     echo $view->render('views/fishing.html');
 });
 
+//logout route
 $f3->route('GET /logout', function($f3) {
 
 
@@ -191,7 +196,9 @@ $f3->route('GET /logout', function($f3) {
     $f3->reroute("/");
 });
 
+// route to view hikes
 $f3->route('GET /viewHiking', function($f3) {
+    //get info from database that will be displayed on viewHiking page
     $database= $GLOBALS['database'];
     $data=$database->getHikes($_SESSION['user']);
     $f3->set('columns',array("Title","Address","Enjoyability","Length", "Elevation Change","Difficulty","Scenery", "Date"));
@@ -207,8 +214,9 @@ $f3->route('GET /viewHiking', function($f3) {
 });
 
 
-
+// route to view fishing activities
 $f3->route('GET /viewFishing', function($f3) {
+    //get info from database that will be displayed on viewFishing page
     $database= $GLOBALS['database'];
     $data=$database->getFishing($_SESSION['user']);
     $f3->set('columns',array("Title","Address","Enjoyability","Distance From Parking", "Water Type","Success", "Date"));

@@ -1,6 +1,13 @@
 <?php
+//used to get CONFIG file
 $user = $_SERVER['USER'];
 require_once "/home2/$user/config.php";
+
+
+/**
+ * Class Database
+ * This class will interact with the database for the app
+ */
 class Database
 {
     private $_dbh;
@@ -18,6 +25,10 @@ class Database
     } // end constructor
 
 
+    /**
+     * This function will add user to the database
+     * @param $profileObj profile object
+     */
     function addUser($profileObj)
     {
         $dbh = $this->_dbh;
@@ -41,6 +52,11 @@ class Database
 
     } // end addUser
 
+    /**
+     * This function will return a user info from database
+     * @param $email  email
+     * @return mixed data base info
+     */
     function getUser($email)
     {
         $dbh = $this->_dbh;
@@ -54,6 +70,12 @@ class Database
 
     } // end getUser
 
+    /**
+     * This function will check if the login is correct
+     * @param $email
+     * @param $password
+     * @return int result
+     */
     function checkLogin($email,$password)
     {
         $dbh = $this->_dbh;
@@ -75,14 +97,17 @@ class Database
         }
     }
 
-        function addHike($hikeObj, $user)
-        {
+    /**
+     * This function will add hike to the database
+     * @param $hikeObj
+     * @param $user
+     */
+    function addHike($hikeObj, $user)
+    {
             $dbh = $this->_dbh;
             // define the query
             $sql = "INSERT INTO hikes(title, address, enjoyability, length, elevationChange, difficulty, scenery, date, user)
             VALUES (:title, :address, :enjoyability, :length, :elevationChange, :difficulty, :scenery, :date , :user)";
-
-
 
 
 
@@ -106,10 +131,15 @@ class Database
 
 
 
-        } // end addHike
+    } // end addHike
 
-        function getHikes($user)
-        {
+    /**
+     * This function will get all the hikes that user added
+     * @param $user
+     * @return array with results
+     */
+    function getHikes($user)
+    {
             $dbh = $this->_dbh;
 
             $sql = "SELECT * FROM hikes WHERE user = ?";
@@ -117,10 +147,15 @@ class Database
             $stmt->execute([$user]);
             return $stmt->fetchAll();
 
-        } // end getHikes
+    } // end getHikes
 
-        function addFishing($fishObj, $user)
-        {
+    /**
+     * This function will add fishing activity to database
+     * @param $fishObj
+     * @param $user
+     */
+    function addFishing($fishObj, $user)
+    {
             $dbh = $this->_dbh;
             // define the query
             $sql = "INSERT INTO fishing(title, address, enjoyability, distanceFromParking, waterType, success, date, user)
@@ -144,10 +179,15 @@ class Database
 
 
 
-        } // end addFishing
+    } // end addFishing
 
-        function getFishing($user)
-        {
+    /**
+     * This function will get all the fishing activities that user added
+     * @param $user
+     * @return array with results from database
+     */
+    function getFishing($user)
+    {
             $dbh = $this->_dbh;
 
             $sql = "SELECT * FROM fishing WHERE user = ?";
@@ -155,7 +195,7 @@ class Database
             $stmt->execute([$user]);
             return $stmt->fetchAll();
 
-        } // end getFishing
+    } // end getFishing
 
 
 
