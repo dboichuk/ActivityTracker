@@ -1,5 +1,12 @@
 <?php
 
+
+/**
+ * Class Fishing
+ * This class is a child of Activity and contains information
+ * specific to fishing trips (distance from parking, water
+ * type, and how successful it was)
+ */
 class Fishing extends Activity
 {
     private $_distanceFromParking;

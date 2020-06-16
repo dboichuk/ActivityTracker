@@ -1,5 +1,11 @@
 <?php
 
+
+/**
+ * Class Profile
+ * This class creates a user profile to be used
+ * for logging in and saving activity data
+ */
 class Profile
 {
     //Declare instance variables
@@ -33,7 +39,7 @@ class Profile
 
     }
 
-    /**
+    /**Gets the gender
      * @return mixed
      */
     public function getGender()
@@ -41,32 +47,12 @@ class Profile
         return $this->_gender;
     }
 
-    /**
+    /**Sets the gender
      * @param mixed $gender
      */
     public function setGender($gender)
     {
         $this->_gender = $gender;
-    }
-
-    /**
-     * This method checks if name, email, user ID, and password are filled out
-     * @return bool true if all fields are filled, false if at least one is empty
-     */
-    function validateData()
-    {
-        $valid = true;
-
-        if (empty($this->getFirstName()) || empty($this->getLastName()) ||
-            empty($this->getUserID()) || empty($this->getPassword())) {
-            $valid = false;
-        }
-        return $valid;
-    }
-
-    function changePassword()
-    {
-
     }
 
     /** Set the first name
@@ -77,7 +63,7 @@ class Profile
         $this->_firstName = $firstName;
     }
 
-    /**
+    /**Gets first name
      * @return string first name
      */
     public function getFirstName()
@@ -93,7 +79,7 @@ class Profile
         $this->_lastName = $lastName;
     }
 
-    /**
+    /**Gets last name
      * @return string last name
      */
     public function getLastName()
@@ -101,7 +87,7 @@ class Profile
         return $this->_lastName;
     }
 
-    /**
+    /**Gets the password
      * @return mixed
      */
     public function getPassword()
@@ -109,7 +95,7 @@ class Profile
         return $this->_password;
     }
 
-    /**
+    /** Set the password
      * @param mixed $password
      */
     public function setPassword($password)
@@ -125,7 +111,7 @@ class Profile
         $this->_age = $age;
     }
 
-    /**
+    /**Gets the age
      * @return int age
      */
     public function getAge()
@@ -141,7 +127,7 @@ class Profile
         $this->_fitnessLevel = $fitnessLevel;
     }
 
-    /**
+    /**Gets the fitness level
      * @return string fitness level
      */
     public function getFitnessLevel()
@@ -157,7 +143,7 @@ class Profile
         $this->_email = $email;
     }
 
-    /**
+    /**Gets the email address
      * @return string email address
      */
     public function getEmail()

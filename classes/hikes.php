@@ -1,5 +1,12 @@
 <?php
 
+
+/**
+ * Class Hikes
+ * This class is a child of Activity and contains information
+ * specific to fishing trips (length of hike, elevation change,
+ * difficulty, and any scenery comments)
+ */
 class Hikes extends Activity
 {
     private $_length;
@@ -79,6 +86,4 @@ class Hikes extends Activity
     {
         $this->_scenery = $scenery;
     }
-
-
 }

@@ -1,5 +1,12 @@
 <?php
 
+
+/**
+ * Class Activity
+ * This parent class contains generalized activity information
+ * for the name of the event, address, enjoyability, and date
+ * when it occurred
+ */
 class Activity
 {
     private $_title;
@@ -21,21 +28,6 @@ class Activity
         $this->setAddress($address);
         $this->setEnjoyability($enjoyability);
         $this->setDate($date);
-    }
-
-
-    /**
-     * This method checks if title and address are filled out
-     * @return bool true if title and address filled, false if at least one is empty
-     */
-    function validateData()
-    {
-        $valid = true;
-
-        if (empty($this->getTitle()) || empty($this->getAddress())) {
-            $valid = false;
-        }
-        return $valid;
     }
 
     /**
